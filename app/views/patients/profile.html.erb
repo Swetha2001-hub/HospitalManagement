@@ -1,0 +1,93 @@
+<div class="container mt-4">
+  <div class="card shadow-lg p-4">
+    <h2 class="text-center text-primary">Patient Profile - <%= @patient.full_name %></h2>
+
+    <div class="row">
+      <div class="col-md-6">
+        <p><strong>Contact Number:</strong> <%= @patient.contact_number %></p>
+        <p><strong>Gender:</strong> <%= @patient.gender %></p>
+        <p><strong>Blood Group:</strong> <%= @patient.blood_group %></p>
+      </div>
+    </div>
+
+    <!-- Medical Details Form -->
+    <h3 class="mt-4 text-success">Enter Medical Details</h3>
+
+    <%= form_with model: @medical_record, url: patient_medical_records_path(@patient), local: true, class: "mt-3" do |f| %>
+      <%= f.hidden_field :patient_id, value: @patient.id %>
+      <%= f.hidden_field :doctor_id, value: @appointment&.doctor_id %>
+      <%= f.hidden_field :appointment_id, value: @appointment&.id %>
+
+      <div class="mb-3">
+        <%= f.label :comments, "Comments", class: "form-label" %>
+        <%= f.text_area :comments, class: "form-control", rows: 3 %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :condition, "Patient Condition", class: "form-label" %>
+        <%= f.text_area :condition, class: "form-control", rows: 3 %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :medication, "Prescribed Medications", class: "form-label" %>
+        <%= f.text_area :medication, class: "form-control", rows: 3 %>
+      </div>
+
+      <!-- Admit Checkbox -->
+      <div class="form-check mb-3">
+        <%= f.check_box :admitted, class: "form-check-input", id: "admit_checkbox" %>
+        <%= f.label :admitted, "Admit Patient?", class: "form-check-label" %>
+      </div>
+
+      <!-- Room Selection -->
+      <div class="mb-3">
+        <label for="room_select" class="form-label">Assign Room (if admitted):</label>
+        <%= select_tag 'room_id', options_from_collection_for_select(Room.where(status: "available"), :id, :room_number, selected: nil),
+                       { prompt: "Select a room", id: "room_select", class: "form-select" } %>
+      </div>
+
+      <!-- Bed Selection (Filtered Based on Selected Room) -->
+      <div class="mb-3">
+        <label for="bed_select" class="form-label">Available Bed:</label>
+        <%= select_tag 'bed_id', options_for_select([], selected: nil),
+                       { prompt: "Select a bed", id: "bed_select", class: "form-select", disabled: true } %>
+      </div>
+
+      <%= f.submit "Save Medical Record", class: "btn btn-primary w-100" %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  let admitCheckbox = document.getElementById("admit_checkbox");
+  let roomSelect = document.getElementById("room_select");
+  let bedSelect = document.getElementById("bed_select");
+
+  admitCheckbox.addEventListener("change", function() {
+    roomSelect.disabled = !this.checked;
+    bedSelect.disabled = true;
+    bedSelect.innerHTML = '<option value="">Select a bed</option>';
+  });
+
+  roomSelect.addEventListener("change", function() {
+    let roomId = this.value;
+
+    if (roomId) {
+      fetch(`/rooms/${roomId}/available_beds`)
+        .then(response => response.json())
+        .then(data => {
+          bedSelect.innerHTML = '<option value="">Select a bed</option>';
+          data.forEach(bed => {
+            let option = new Option("Bed " + bed.bed_number, bed.id);
+            bedSelect.appendChild(option);
+          });
+          bedSelect.disabled = false;
+        });
+    } else {
+      bedSelect.innerHTML = '<option value="">Select a bed</option>';
+      bedSelect.disabled = true;
+    }
+  });
+});
+</script>

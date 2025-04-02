@@ -1,0 +1,17 @@
+<h2>Patient Login</h2>
+
+<%= form_with url: patient_session_path, method: :post do |f| %>
+  <p>
+    <%= f.label :email %><br>
+    <%= f.email_field :email, required: true %>
+  </p>
+
+  <p>
+    <%= f.label :password %><br>
+    <%= f.password_field :password, required: true %>
+  </p>
+
+  <p>
+    <%= f.submit "Login" %>
+  </p>
+<% end %>

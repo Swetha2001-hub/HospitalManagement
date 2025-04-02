@@ -1,0 +1,49 @@
+<%= form_for(@doctor, html: { multipart: true }) do |f| %>
+  <h3>Account Information</h3>
+
+  <%= f.label :email %>
+  <%= f.email_field :email, required: true %>
+
+  <%= f.label :password %>
+  <%= f.password_field :password, required: true %>
+
+  <%= f.label :password_confirmation %>
+  <%= f.password_field :password_confirmation, required: true %>
+
+  <h3>Doctor Profile</h3>
+
+  <%= f.label :first_name %>
+  <%= f.text_field :first_name, required: true %>
+
+  <%= f.label :middle_name %>
+  <%= f.text_field :middle_name %>
+
+  <%= f.label :last_name %>
+  <%= f.text_field :last_name, required: true %>
+
+  <%= f.label :dob, "Date of Birth" %>
+  <%= f.date_select :dob, start_year: 1950, end_year: Date.today.year, required: true %>
+
+  <%= f.label :contact_number %>
+  <%= f.text_field :contact_number, required: true %>
+
+  <%= f.label :nationality %>
+  <%= f.text_field :nationality %>
+
+  <%= f.label :gender %>
+  <%= f.select :gender, ["Male", "Female", "Other"], required: true %>
+
+  <%= f.label :qualifications %>
+  <%= f.text_field :qualifications, required: true %>
+
+  <%= f.label :experience, "Experience (Years)" %>
+  <%= f.number_field :experience, min: 0, required: true %>
+
+  <%= f.label :photo, "Profile Photo" %>
+  <%= f.file_field :photo %>
+
+  <%= f.label :department_id, "Department" %>
+  <%= f.collection_select :department_id, Department.all, :id, :name, prompt: "Select Department" %>
+
+  <%= f.submit "Save", class: "btn btn-primary" %>
+<% end %>

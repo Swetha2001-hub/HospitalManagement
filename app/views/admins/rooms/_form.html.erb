@@ -1,0 +1,14 @@
+<%= form_with(model: @room, local: true) do |f| %>
+    <p>
+      <%= f.label :room_number, "Room Number" %>
+      <%= f.text_field :room_number %>
+    </p>
+  
+    <p>
+      <%= f.label :status, "Room Status" %>
+      <%= f.select :status, [["Available", "available"], ["Occupied", "occupied"]] %>
+    </p>
+  
+    <%= f.submit "Save Room" %>
+  <% end %>
+  

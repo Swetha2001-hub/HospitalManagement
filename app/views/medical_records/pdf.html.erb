@@ -1,0 +1,10 @@
+<h1>Medical Record</h1>
+
+<p><strong>Doctor:</strong> <%= @medical_record.doctor.first_name %> <%= @medical_record.doctor.last_name %></p>
+<p><strong>Comments:</strong> <%= @medical_record.comments %></p>
+<p><strong>Condition:</strong> <%= @medical_record.condition %></p>
+<p><strong>Medication:</strong> <%= @medical_record.medication %></p>
+
+<% if @medical_record.report.attached? %>
+  <p><strong>Report:</strong> Attached (Check Dashboard)</p>
+<% end %>

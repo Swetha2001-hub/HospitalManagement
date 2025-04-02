@@ -1,0 +1,30 @@
+<%= form_with model: @medical_record, url: patient_medical_records_path(@patient), local: true do |f| %>
+    <%= f.hidden_field :patient_id, value: @patient.id %>
+    <%= f.hidden_field :doctor_id, value: @appointment.doctor_id %>
+    <%= f.hidden_field :appointment_id, value: @appointment.id %>
+  
+    <p>
+      <%= f.label :comments, "Comments" %>
+      <%= f.text_area :comments %>
+    </p>
+  
+    <p>
+      <%= f.label :condition, "Patient Condition" %>
+      <%= f.text_area :condition %>
+    </p>
+  
+    <p>
+      <%= f.label :medication, "Prescribed Medications" %>
+      <%= f.text_area :medication %>
+    </p>
+
+
+  <!-- New Admission Checkbox -->
+  <p>
+    <%= f.label :admitted, "Admit Patient?" %>
+    <%= f.check_box :admitted %>
+  </p>
+  
+    <%= f.submit "Save Medical Record" %>
+  <% end %>
+  

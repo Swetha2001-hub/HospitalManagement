@@ -1,0 +1,26 @@
+<h2>Add Medical Record for <%= @patient.first_name %> <%= @patient.last_name %></h2>
+
+<%= form_with(model: @medical_record, local: true) do |form| %>
+    <div>
+      <%= form.label :comments, "Comments" %>
+      <%= form.text_area :comments %>
+    </div>
+  
+    <div>
+      <%= form.label :condition, "Patient Condition" %>
+      <%= form.text_area :condition %>
+    </div>
+  
+    <div>
+      <%= form.label :medication, "Medication Given" %>
+      <%= form.text_area :medication %>
+    </div>
+  
+    <div>
+      <%= form.label :document, "Supporting Document" %>
+      <%= form.file_field :document %>
+    </div>
+  
+    <%= form.submit "Save Medical Record" %>
+  <% end %>
+  

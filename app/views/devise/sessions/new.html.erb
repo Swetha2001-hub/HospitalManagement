@@ -1,0 +1,34 @@
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow-lg p-4 border-0" style="max-width: 400px; width: 100%;">
+    <div class="card-body">
+      <h2 class="text-center text-primary mb-4">User Login</h2>
+
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="mb-3">
+          <%= f.label :email, class: "form-label fw-bold" %>
+          <%= f.email_field :email, class: "form-control rounded-pill", placeholder: "Enter your email", autofocus: true %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :password, class: "form-label fw-bold" %>
+          <%= f.password_field :password, class: "form-control rounded-pill", placeholder: "Enter your password" %>
+        </div>
+
+        <% if devise_mapping.rememberable? %>
+          <div class="form-check mb-3">
+            <%= f.check_box :remember_me, class: "form-check-input" %>
+            <%= f.label :remember_me, class: "form-check-label" %>
+          </div>
+        <% end %>
+
+        <div class="d-grid">
+          <%= f.submit "Log in", class: "btn btn-primary btn-lg rounded-pill" %>
+        </div>
+      <% end %>
+
+      <div class="text-center mt-3">
+        <%= link_to "Register as a Patient", new_patient_path, class: "text-decoration-none text-primary fw-bold" %>
+      </div>
+    </div>
+  </div>
+</div>

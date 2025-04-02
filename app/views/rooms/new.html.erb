@@ -1,0 +1,57 @@
+<h1>Add a New Room</h1>
+
+<%= form_with model: @room, url: rooms_path, local: true do |f| %>
+  <p>
+    <%= f.label :room_number, "Room Number" %>
+    <%= f.text_field :room_number %>
+  </p>
+
+  <p>
+    <%= f.label :department_id, "Department" %>
+    <%= f.collection_select :department_id, Department.all, :id, :name, prompt: "Select a Department" %>
+  </p>
+
+  <p>
+    <%= f.label :status, "Room Status" %>
+    <%= f.select :status, ["available", "occupied"], prompt: "Select Status" %>
+  </p>
+
+  <h3>Add Beds</h3>
+  <div id="beds">
+    <%= f.fields_for :beds do |b| %>
+      <div class="bed-fields">
+        <p>
+          <%= b.label :bed_number, "Bed Number" %>
+          <%= b.text_field :bed_number %>
+        </p>
+
+        <p>
+          <%= b.label :status, "Bed Status" %>
+          <%= b.select :status, ["available", "occupied"], prompt: "Select Status" %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+
+  <p>
+    <button type="button" id="add-bed">Add Another Bed</button>
+  </p>
+
+  <%= f.submit "Create Room", class: "btn btn-primary" %>
+<% end %>
+
+<%= link_to "Back to Rooms", rooms_path, class: "btn btn-secondary" %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("add-bed").addEventListener("click", function() {
+      let bedsDiv = document.getElementById("beds");
+      let newBed = bedsDiv.children[0].cloneNode(true); 
+      
+      // Clear input fields in the cloned div
+      newBed.querySelectorAll("input, select").forEach(input => input.value = "");
+      
+      bedsDiv.appendChild(newBed);
+    });
+  });
+</script>

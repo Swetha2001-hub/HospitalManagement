@@ -1,0 +1,57 @@
+<div class="container mt-4">
+  <div class="card shadow-lg p-4">
+    <h2 class="text-center text-primary">Edit Profile</h2>
+
+    <%= form_for @patient, html: { multipart: true } do |f| %>
+      <div class="mb-3">
+        <%= f.label :first_name, "First Name" %>
+        <%= f.text_field :first_name, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :middle_name, "Middle Name" %>
+        <%= f.text_field :middle_name, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :last_name, "Last Name" %>
+        <%= f.text_field :last_name, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :date_of_birth, "Date of Birth" %>
+        <%= f.date_field :date_of_birth, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :address, "Address" %>
+        <%= f.text_field :address, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :contact_number, "Contact Number" %>
+        <%= f.text_field :contact_number, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :gender, "Gender" %>
+        <%= f.select :gender, [["Male", "male"], ["Female", "female"], ["Other", "other"]], class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :blood_group, "Blood Group" %>
+        <%= f.text_field :blood_group, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :photo, "Upload Photo" %>
+        <%= f.file_field :photo, class: "form-control" %>
+      </div>
+
+      <div class="text-center">
+        <%= f.submit "Save Changes", class: "btn btn-success" %>
+        <%= link_to "Cancel", patient_path(@patient), class: "btn btn-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

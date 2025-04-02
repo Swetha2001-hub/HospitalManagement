@@ -1,0 +1,47 @@
+<h1 class="text-center my-4">Rooms</h1>
+
+<div class="d-flex justify-content-between mb-3">
+  <%= link_to "Add Room", new_room_path, class: "btn btn-success" %>
+  <%= link_to "Download Room Utilization Report (CSV)", export_csv_rooms_path, class: "btn btn-primary" %>
+</div>
+
+<table class="table table-bordered table-hover table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th>Room Number</th>
+      <th>Department</th>
+      <th>Total Beds</th>
+      <th>Available Beds</th>
+      <th>Occupied Beds</th>
+     
+      <th>Assigned Patients & Beds</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rooms.each do |room| %>
+      <tr>
+        <td><%= room.room_number %></td>
+        <td><%= room.department.name %></td>
+        <td><%= room.beds.count %></td>
+        <td class="text-success fw-bold"><%= room.beds.where(status: "available").count %></td>
+        <td class="text-danger fw-bold"><%= room.beds.where(status: "occupied").count %></td>
+      
+        <td>
+          <% if room.beds.exists?(status: "occupied") %>
+            <ul class="list-group">
+              <% room.beds.where(status: "occupied").each do |bed| %>
+                <% patient = Patient.find_by(id: bed.patient_id) %>
+                <li class="list-group-item">
+                  <%= patient ? "#{patient.first_name} #{patient.last_name} (Bed #{bed.bed_number})" : "Not Assigned" %>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <span class="text-muted">Not Assigned</span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

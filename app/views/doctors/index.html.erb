@@ -1,0 +1,169 @@
+<style>
+  .profile-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: white;
+  }
+
+  .profile-header {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 20px;
+  }
+
+  .profile-photo {
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    border: 3px solid #007bff;
+  }
+
+  .profile-info {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .profile-info strong {
+    color: #333;
+  }
+
+  .slots-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+  }
+
+  .slot-box {
+    background-color: #e7f3ff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: inline-block;
+    margin: 3px;
+  }
+
+  .add-slot-btn {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+  }
+</style>
+
+<div class="container mt-5">
+  <h2 class="text-center text-primary mb-4">Doctor Profile</h2>
+
+  <% if current_user.admin? %>
+    <!-- Admin View: Table Format -->
+    <div class="mb-3 text-end">
+      <%= link_to "Create Doctor", new_doctor_path, class: "btn btn-success" %>
+    </div>
+
+    <table class="table table-bordered table-hover shadow">
+      <thead class="table-dark">
+        <tr>
+          <th>Photo</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Contact</th>
+          <th>Department</th>
+          <th>Qualifications</th>
+          <th>Experience</th>
+          <th>Nationality</th>
+          <th>Gender</th>
+          <th style="width: 200px;">Slots</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @doctors.each do |doctor| %>
+          <tr>
+            <td class="text-center">
+              <% if doctor.photo.present? %>
+                <%= image_tag doctor.photo, class: "rounded-circle border shadow", width: 50, height: 50 %>
+              <% else %>
+                <span class="text-muted">No Photo</span>
+              <% end %>
+            </td>
+
+            <td><%= "#{doctor.first_name} #{doctor.middle_name} #{doctor.last_name}" %></td>
+            <td><%= doctor.email %></td>
+            <td><%= doctor.contact_number %></td>
+            <td><%= doctor.department&.name || "N/A" %></td>
+            <td><%= doctor.qualifications || "N/A" %></td>
+            <td><%= doctor.experience || "N/A" %></td>
+            <td><%= doctor.nationality || "N/A" %></td>
+            <td><%= doctor.gender || "N/A" %></td>
+
+            <td>
+
+
+              <% if current_user.admin? %>
+              <div>
+                <% doctor.availabilities.each do |slot| %>
+                  <div class="slot-box">
+                    <%= slot.start_time.strftime("%d %b, %I:%M %p") %> 
+                    (<%= slot.slot_duration %> mins)
+            
+                    <%= button_to "🗑️", doctor_availability_path(doctor, slot), 
+                                  method: :delete, 
+                                  remote: true, 
+                                  data: { confirm: "Are you sure?" },
+                                  class: "delete-slot-btn btn btn-sm btn-danger ms-2" %>
+                  </div>
+                <% end %>
+            
+                <div class="mt-2">
+                  <%= link_to "➕ Add Slot", new_doctor_availability_path(doctor), 
+                              class: "btn btn-sm btn-primary add-slot-btn" %>
+                  <%= link_to "✏️ Edit", edit_doctor_path(doctor), 
+                  class: "btn btn-sm btn-warning ms-2" %>
+                </div>
+              </div>
+            <% end %>
+            
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  <% elsif current_user.doctor.present? %>
+    <!-- Doctor View: Profile Card Format -->
+    <div class="profile-container shadow">
+      <div class="profile-header">Dr. <%= current_user.doctor.first_name %> <%= current_user.doctor.last_name %></div>
+      
+      <% if current_user.doctor.photo.present? %>
+        <%= image_tag current_user.doctor.photo, class: "profile-photo" %>
+      <% end %>
+
+      <div class="profile-info"><strong>Email:</strong> <%= current_user.doctor.email %></div>
+      <div class="profile-info"><strong>Contact:</strong> <%= current_user.doctor.contact_number %></div>
+      <div class="profile-info"><strong>Department:</strong> <%= current_user.doctor.department&.name || "N/A" %></div>
+      <div class="profile-info"><strong>Qualifications:</strong> <%= current_user.doctor.qualifications || "N/A" %></div>
+      <div class="profile-info"><strong>Experience:</strong> <%= current_user.doctor.experience || "N/A" %> years</div>
+      <div class="profile-info"><strong>Nationality:</strong> <%= current_user.doctor.nationality || "N/A" %></div>
+      <div class="profile-info"><strong>Gender:</strong> <%= current_user.doctor.gender || "N/A" %></div>
+
+    
+   
+      </div>
+
+      <div class="text-center mt-3">
+        <%= link_to "📅 My Appointments", doctor_appointments_path(current_user.doctor), class: "btn btn-info" %>
+      </div>
+    </div>
+
+  <% else %>
+    <div class="text-center mt-3 text-danger">
+      <p>No associated doctor profile found.</p>
+    </div>
+  <% end %>
+</div>

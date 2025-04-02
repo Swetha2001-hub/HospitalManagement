@@ -1,0 +1,15 @@
+<h2>Medical Record</h2>
+<% if current_user.role == "doctor" %>
+  <%= link_to "Add Medical Record", new_patient_medical_record_path(@patient) %>
+<% end %>
+
+<p><strong>Doctor:</strong> <%= @medical_record.doctor.first_name %> <%= @medical_record.doctor.last_name %></p>
+<p><strong>Comments:</strong> <%= @medical_record.comments %></p>
+<p><strong>Condition:</strong> <%= @medical_record.condition %></p>
+<p><strong>Medication:</strong> <%= @medical_record.medication %></p>
+
+<% if @medical_record.report.attached? %>
+  <p><strong>Report:</strong> <%= link_to "Download Report", rails_blob_path(@medical_record.report, disposition: "attachment") %></p>
+<% end %>
+
+<%= link_to "Download as PDF", download_pdf_patient_medical_record_path(@medical_record.patient, @medical_record), format: :pdf %>

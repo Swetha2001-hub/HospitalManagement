@@ -1,0 +1,25 @@
+<% if doctors.any? %>
+  <div class="container mt-4 d-flex justify-content-center">
+    <div class="card shadow-lg p-4" style="max-width: 500px; width: 100%; background-color: #f8f9fa; border-radius: 10px;">
+      <h3 class="text-center text-primary mb-3">Select a Doctor</h3>
+      
+      <%= form_with url: available_slots_appointments_path, method: :get, local: true, class: "needs-validation" do %>
+        <%= hidden_field_tag :department_id, params[:department_id] %>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Choose a Doctor:</label>
+          <%= select_tag :doctor_id, 
+                options_from_collection_for_select(doctors, :id, ->(doctor) { "#{doctor.first_name} #{doctor.last_name}" }), 
+                prompt: "Select a doctor", 
+                class: "form-select border border-primary rounded" %>
+        </div>
+
+        <div class="text-center">
+          <%= submit_tag "Find Available Slots", class: "btn btn-success btn-lg w-100 mt-3 shadow-sm" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <p class="text-center text-danger mt-4 fw-bold" style="font-size: 18px;">No doctors available in this department.</p>
+<% end %>

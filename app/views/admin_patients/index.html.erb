@@ -1,0 +1,30 @@
+<div class="container mt-4">
+  <h2 class="text-center text-success">Registered Patients</h2>
+
+  <div class="table-responsive">
+    <table class="table border rounded shadow-sm">
+      <thead class="bg-primary text-white">
+        <tr>
+          <th class="p-3">Name</th>
+          <th class="p-3">Email</th>
+          <th class="p-3">Contact</th>
+          <th class="p-3">Gender</th>
+          <th class="p-3 text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @patients.each do |patient| %>
+          <tr class="align-middle">
+            <td class="p-3"><%= patient.full_name %></td>
+            <td class="p-3"><%= patient.user.email %></td>
+            <td class="p-3"><%= patient.contact_number %></td>
+            <td class="p-3"><%= patient.gender.present? ? patient.gender.capitalize : "Not Specified" %></td>
+            <td class="p-3 text-center">
+              <%= link_to "View Details", admin_patient_path(patient), class: "btn btn-outline-primary btn-sm px-3" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

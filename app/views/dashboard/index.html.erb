@@ -1,0 +1,58 @@
+<div class="container mt-5">
+  <h1 class="text-center text-primary">Welcome, Admin</h1>
+  <p class="text-center text-muted">Manage the hospital system efficiently from this dashboard.</p>
+
+  <div class="row mt-4">
+    <!-- Departments -->
+    <div class="col-md-4">
+      <div class="card shadow text-center p-3">
+        <i class="fas fa-building fa-3x text-info"></i>
+        <h5 class="mt-2">Departments</h5>
+        <p class="text-muted">Manage all hospital departments.</p>
+        <%= link_to "Go to Departments", departments_path, class: "btn btn-info btn-sm" %>
+      </div>
+    </div>
+
+    <!-- Doctors -->
+    <div class="col-md-4">
+      <div class="card shadow text-center p-3">
+        <i class="fas fa-user-md fa-3x text-success"></i>
+        <h5 class="mt-2">Doctors</h5>
+        <p class="text-muted">View & manage all doctors.</p>
+        <%= link_to "Manage Doctors", doctors_path, class: "btn btn-success btn-sm" %>
+      </div>
+    </div>
+
+    <!-- Patients -->
+    <div class="col-md-4">
+      <div class="card shadow text-center p-3">
+        <i class="fas fa-procedures fa-3x text-warning"></i>
+        <h5 class="mt-2">Patients</h5>
+        <p class="text-muted">View all registered patients.</p>
+        <%= link_to "View Patients", admin_patients_path, class: "btn btn-warning btn-sm" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <!-- Rooms -->
+    <div class="col-md-4">
+      <div class="card shadow text-center p-3">
+        <i class="fas fa-bed fa-3x text-danger"></i>
+        <h5 class="mt-2">Rooms</h5>
+        <p class="text-muted">Manage hospital rooms & beds.</p>
+        <%= link_to "Manage Rooms", rooms_path, class: "btn btn-danger btn-sm" %>
+      </div>
+    </div>
+
+    <!-- Logout Button -->
+    <div class="col-md-4">
+      <div class="card shadow text-center p-3 bg-light">
+        <i class="fas fa-sign-out-alt fa-3x text-secondary"></i>
+        <h5 class="mt-2">Logout</h5>
+        <p class="text-muted">Sign out from your account.</p>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-secondary btn-sm" %>
+      </div>
+    </div>
+  </div>
+</div>

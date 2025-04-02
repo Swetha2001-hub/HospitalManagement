@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <div class="card shadow-lg p-4">
+    <h2 class="text-center text-primary">Welcome, <%= @patient.first_name %>!</h2>
+    
+    <div class="row">
+      <div class="col-md-4 text-center">
+        <% if @patient.photo.attached? %>
+          <%= image_tag @patient.photo, class: "rounded-circle img-thumbnail", width: 150 %>
+        <% else %>
+          <p class="text-muted">No Photo Available</p>
+        <% end %>
+      </div>
+      
+      <div class="col-md-8">
+        <p><strong>Full Name:</strong> <%= @patient.first_name %> <%= @patient.middle_name %> <%= @patient.last_name %></p>
+        <p><strong>Date of Birth:</strong> <%= @patient.date_of_birth.strftime("%d-%m-%Y") %></p>
+        <p><strong>Address:</strong> <%= @patient.address %></p>
+        <p><strong>Contact Number:</strong> <%= @patient.contact_number %></p>
+        <p><strong>Gender:</strong> <%= @patient.gender.capitalize %></p>
+        <p><strong>Blood Group:</strong> <%= @patient.blood_group %></p>
+        <p>
+          <strong>Admitted On:</strong> 
+          <% if @patient.admitted_at.present? %>
+            <span class="badge bg-info text-dark"><%= @patient.admitted_at.strftime("%d-%m-%Y %H:%M") %></span>
+          <% else %>
+            <span class="badge bg-secondary">Not Admitted</span>
+          <% end %>
+        </p>
+      </div>
+    </div>
+    
+
+    <div class="text-center mt-4">
+    <%= link_to "Edit Profile", edit_patient_path(@patient), class: "btn btn-warning" %>
+      <%= link_to "Back to Dashboard", patient_dashboard_path, class: "btn btn-outline-primary" %>
+    </div>
+  </div>
+</div>

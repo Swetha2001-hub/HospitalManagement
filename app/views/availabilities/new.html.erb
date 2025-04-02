@@ -1,0 +1,20 @@
+<h2>Add Availability for <%= @doctor.first_name %> <%= @doctor.last_name %></h2>
+
+<%= form_with model: [@doctor, @availability], local: true do |f| %>
+  <div>
+    <%= f.label :start_time, "Start Time" %>
+    <%= f.datetime_select :start_time %>
+  </div>
+
+  <div>
+    <%= f.label :end_time, "End Time" %>
+    <%= f.datetime_select :end_time %>
+  </div>
+
+  <div>
+    <%= f.label :slot_duration, "Slot Duration (minutes)" %>
+    <%= f.number_field :slot_duration %>
+  </div>
+
+  <%= f.submit "Add Slot" %>
+<% end %>

@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  date_of_birth: 2025-03-18
+  address: MyString
+  contact_number: MyString
+  gender: MyString
+  blood_group: MyString
+
+two:
+  user: two
+  date_of_birth: 2025-03-18
+  address: MyString
+  contact_number: MyString
+  gender: MyString
+  blood_group: MyString

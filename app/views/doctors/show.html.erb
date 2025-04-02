@@ -1,0 +1,31 @@
+<div class="container mt-5">
+  <div class="card shadow-lg p-4">
+    <h2 class="text-center text-primary">My Profile</h2>
+
+    <div class="row align-items-center">
+      <!-- Doctor Details -->
+      <div class="col-md-8">
+        <p><strong>Name:</strong> <%= @doctor.full_name %></p>
+        <p><strong>Email:</strong> <%= @doctor.user.email %></p>
+        <p><strong>Contact:</strong> <%= @doctor.contact_number %></p>
+        <p><strong>Department:</strong> <%= @doctor.department&.name || "N/A" %></p>
+        <p><strong>Qualifications:</strong> <%= @doctor.qualifications.presence || "Not Specified" %></p>
+        <p><strong>Experience:</strong> <%= @doctor.experience %> years</p>
+      </div>
+
+      <!-- Doctor Photo -->
+      <div class="col-md-4 text-center">
+        <% if @doctor.photo.attached? %>
+          <img src="<%= url_for(@doctor.photo) %>" class="img-fluid rounded-circle shadow" width="150">
+        <% else %>
+          <p class="text-muted">No Photo Uploaded</p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Edit Button -->
+    <div class="text-center mt-4">
+      <%= link_to "Edit Profile", edit_doctor_path(@doctor), class: "btn btn-warning px-4" %>
+    </div>
+  </div>
+</div>

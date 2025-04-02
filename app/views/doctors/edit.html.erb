@@ -1,0 +1,61 @@
+<h2 class="text-primary">Edit Doctor Profile</h2>
+
+<%= form_for @doctor do |f| %>
+  <div class="mb-3">
+    <%= f.label :first_name, "First Name" %>
+    <%= f.text_field :first_name, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :middle_name, "Middle Name" %>
+    <%= f.text_field :middle_name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :last_name, "Last Name" %>
+    <%= f.text_field :last_name, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :email, "Email" %>
+    <%= f.email_field :email, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :contact_number, "Contact Number" %>
+    <%= f.text_field :contact_number, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :department_id, "Department" %>
+    <%= f.collection_select :department_id, Department.all, :id, :name, { include_blank: "Select Department" }, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :qualifications, "Qualifications" %>
+    <%= f.text_field :qualifications, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :experience, "Experience (Years)" %>
+    <%= f.number_field :experience, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :nationality, "Nationality" %>
+    <%= f.text_field :nationality, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :gender, "Gender" %>
+    <%= f.select :gender, ["Male", "Female", "Other"], { include_blank: "Select Gender" }, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :photo, "Profile Photo" %>
+    <%= f.file_field :photo, class: "form-control" %>
+  </div>
+
+  <%= f.submit "Save Changes", class: "btn btn-primary" %>
+  <%= link_to "Cancel", doctors_path, class: "btn btn-secondary ms-2" %>
+<% end %>

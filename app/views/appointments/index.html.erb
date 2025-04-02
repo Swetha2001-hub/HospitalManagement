@@ -1,0 +1,44 @@
+<h2 class="text-center text-primary mt-4">My Appointments</h2>
+
+<div class="container mt-3">
+  <table class="table table-bordered table-hover shadow-sm">
+    <thead class="table-dark text-center">
+      <tr>
+        <th>Patient</th>
+        <th>Date & Time</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @appointments.each do |appointment| %>
+        <tr class="text-center">
+          <td>
+            <%= appointment.patient&.full_name.presence || "No Name" %>
+          </td>
+          <td>
+            <%= appointment.date.strftime("%B %d, %I:%M %p") rescue "No Date" %>
+          </td>
+          <td>
+            <span class="badge <%= appointment.status == 'pending' ? 'bg-warning text-dark' : 'bg-success' %>">
+              <%= appointment.status.capitalize %>
+            </span>
+          </td>
+          <td>
+            <% if current_user.role == "doctor" %>
+              <% if appointment.status == "pending" %>
+                <%= button_to "Accept", accept_appointment_path(appointment), 
+                      method: :patch, class: "btn btn-sm btn-primary" %>
+              <% elsif appointment.status == "Accepted" %>
+                <%= link_to "Add Medical Record", new_patient_medical_record_path(appointment.patient), 
+                      class: "btn btn-sm btn-success" %>
+              <% end %>
+            <% else %>
+              <span class="text-muted">No Actions Available</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
