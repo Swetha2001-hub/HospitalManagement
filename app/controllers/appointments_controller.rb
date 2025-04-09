@@ -72,7 +72,7 @@ end
     @appointment = current_user.patient.appointments.build(appointment_params)
     @appointment.date = params[:appointment][:date] 
     @appointment.status = "pending" unless @appointment.status.present?
-    puts "Debug: Appointment status (create) -> #{@appointment.status}" # Debugging line
+    puts "Debug: Appointment status (create) -> #{@appointment.status}" 
     if @appointment.save
   
       redirect_to patient_dashboard_path(params[:appointment][:doctor_id]), notice: "Appointment booked successfully!"

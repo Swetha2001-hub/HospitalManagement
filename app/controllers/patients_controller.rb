@@ -80,11 +80,11 @@ class PatientsController < ApplicationController
   end
 
   def edit
-    @patient = Patient.find(params[:id]) # Ensure @patient is set
+    @patient = Patient.find(params[:id]) 
   end
   
   def update
-    @patient = Patient.find(params[:id]) # Ensure @patient is set
+    @patient = Patient.find(params[:id]) 
     if @patient.update(patient_params)
       flash[:notice] = "Profile updated successfully!"
       redirect_to @patient

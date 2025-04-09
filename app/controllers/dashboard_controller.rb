@@ -3,7 +3,7 @@ class DashboardController < ApplicationController
     before_action :authorize_admin
   
     def index
-      # Dashboard logic here
+     
     end
   
     private

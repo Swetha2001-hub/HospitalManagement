@@ -12,25 +12,25 @@ class MedicalRecordsController < ApplicationController
     if params[:medical_record][:admitted] == "1" && params[:bed_id].present?
       @medical_record.admitted = true
   
-      # Find the selected bed
+      
       selected_bed = Bed.find_by(id: params[:bed_id], status: "available")
   
       if selected_bed
-        # ✅ Assign patient to bed
+      
         selected_bed.update(status: "occupied", patient_id: @patient.id)
   
-        # ✅ Assign patient to room as well
+        
         room = selected_bed.room
         room.update(status: "occupied", patient_id: @patient.id)
   
-        # Update available and occupied bed counts
+        
         available_beds = room.beds.where(status: "available").count
         occupied_beds = room.beds.where(status: "occupied").count
   
-        # Update room status
+       
         room.update(status: available_beds.zero? ? "fully_occupied" : "partially_occupied")
   
-        # ✅ Set `admitted_at` timestamp for patient
+       
         @patient.update(admitted_at: Time.current)
       else
         flash[:alert] = "Selected bed is not available."
@@ -53,8 +53,8 @@ class MedicalRecordsController < ApplicationController
 
   def show
     @medical_record = MedicalRecord.new
-    @rooms = Room.includes(:beds) # Fetch rooms along with beds
-    @beds = Bed.where(status: "available") # Fetch only available beds
+    @rooms = Room.includes(:beds) 
+    @beds = Bed.where(status: "available") 
   end
   
   
@@ -70,7 +70,7 @@ class MedicalRecordsController < ApplicationController
         pdf.text "Patient Medical Record", size: 20, style: :bold
         pdf.move_down 20
 
-        # Patient Details
+        
         pdf.text "Patient Name: #{patient.full_name}"
         pdf.text "Date of Birth: #{patient.date_of_birth}"
         pdf.text "Contact: #{patient.contact_number}"
@@ -78,7 +78,7 @@ class MedicalRecordsController < ApplicationController
         pdf.text "Blood Group: #{patient.blood_group}"
         pdf.move_down 20
 
-        # Medical Record Details
+        
         pdf.text "Doctor: #{@medical_record.doctor.full_name}"
         pdf.text "Condition: #{@medical_record.condition}"
         pdf.text "Medication Given: #{@medical_record.medication}"
@@ -96,7 +96,7 @@ class MedicalRecordsController < ApplicationController
 
   def available_rooms
     patient = Patient.find(params[:patient_id])
-    appointment = patient.appointments.last  # Assuming the last appointment is the current one
+    appointment = patient.appointments.last  
     doctor = appointment.doctor
     department = doctor.department
     available_rooms = department.rooms.where(status: "available")
@@ -107,7 +107,7 @@ class MedicalRecordsController < ApplicationController
 
   private
 
-  # Ensure admitted status is included in medical records
+  
   def medical_record_params
     params.require(:medical_record).permit(:patient_id, :doctor_id, :appointment_id, :comments, :condition, :medication, :admitted)
   end

@@ -4,9 +4,9 @@ class DoctorsController < ApplicationController
   before_action :authorize_doctor, only: [:show]
   def index
     if current_user.admin?
-      @doctors = Doctor.all # Admins see all doctors
+      @doctors = Doctor.all
     else
-      @doctors = Doctor.where(user_id: current_user.id) # Doctors see only their profile
+      @doctors = Doctor.where(user_id: current_user.id) 
     end
   end
   def update
@@ -44,7 +44,7 @@ class DoctorsController < ApplicationController
   end
 
   def create
-  @doctor = Doctor.new(doctor_params)  # Ensure @doctor is always initialized
+  @doctor = Doctor.new(doctor_params)  
 
   ActiveRecord::Base.transaction do
     user_params = params.require(:doctor).permit(:email, :password, :password_confirmation)
